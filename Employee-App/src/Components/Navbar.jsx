@@ -1,3 +1,4 @@
+import React from 'react';
 import Logo from "./logo-search-grid-2x.png"
 
 const navbar = () =>{

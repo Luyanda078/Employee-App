@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import Navbar from "./components/navbar"
+import Navbar from "./components/Navbar"
 import Registration from "./components/registration"
 import Profile from "./components/profile";
 import List from "./components/list";
@@ -22,10 +22,7 @@ function App() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   // Send employees data to local storage
-  //   localStorage.setItem('employees', JSON.stringify(employees));
-  // }, [employees]);
+ 
 
   const handleAddEmployee = (employee) => {
     setEmployees([...employees, employee]);
