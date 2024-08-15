@@ -15,7 +15,7 @@ function App() {
 
 
   useEffect(() => {
-    // Get employees data from local storage
+    
     const storedEmployees = localStorage.getItem('employees');
     if (storedEmployees) {
       setEmployees(JSON.parse(storedEmployees));
@@ -28,17 +28,16 @@ function App() {
     setEmployees([...employees, employee]);
   };
 
-  // //Delete Employees data
+
   const handleDeleteEmployee = (id) => {
    setEmployees(employees.filter((employee) => employee.id !== id));
    };
 
   
 
-  // Allow the Employee to edit the infomation
+  
   const handleUpdateEmployee = (id, updatedEmployee) => {
-    // setEmployees(
-    //   employees.map((employee) => (employee.id === id ? updatedEmployee : employee)));
+   
     handleDeleteEmployee(id)
     handleAddEmployee(id)
   };
@@ -47,12 +46,12 @@ function App() {
     setSelectedEmployee(employee);
   };
 
-  //Takes the search input
+
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  //Stores the FilteredList in an Object
+ 
   const filteredEmployees = employees.filter((employee) =>
     employee.id.toLowerCase().includes(searchTerm.toLowerCase())
   );

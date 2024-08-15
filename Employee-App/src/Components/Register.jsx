@@ -33,7 +33,7 @@ const RegistrationForm =({ onAddEmployee }) => {
   
     return (
         <>
-            <div className="maindiv">
+            <div className="">
 
                 <h2 style={{ textAlign: "center" }}>Welcome to AW.io </h2>
                 <h3 style={{ textAlign: "center" }}>Please fill in your personal information</h3>
@@ -61,7 +61,7 @@ const RegistrationForm =({ onAddEmployee }) => {
       <input type="file" placeholder='image' id="image" name="image" value={employee.image} onChange={handleChange} accept="image/*" /></label>
 
 
-      <button className='btn'>Submit</button>
+      <button className='button'>Submit</button>
       
     </form>
                 
