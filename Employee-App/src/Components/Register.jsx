@@ -1,113 +1,76 @@
-import { useState } from 'react';
-function RegisterEmployee(){
-  const [inputs, setInputs] = useState({addbook});
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputs(values => ({...values, [name]: value}))
-  }
+import React, { useState } from 'react';
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+const RegistrationForm =({ onAddEmployee }) => {
+    const [employee, setEmployee] = useState({
+      name: '',
+      surname: '',
+      email: '',
+      phone: '',
+      image: '',
+      position: '',
+      id: ''
+    });
   
-   
-    
-  }
+    const handleChange = (event) => {
+      const { name, value } = event.target;
+      setEmployee((prevEmployee) => ({ ...prevEmployee, [name]: value }));
+    };
+  
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      onAddEmployee(employee);
+      setEmployee({
+        name: '',
+        surname: '',
+        email: '',
+        phone: '',
+        image: '',
+        position: '',
+        id: ''
+      });
+    };
+  
+    return (
+        <>
+            <div className="maindiv">
+
+                <h2 style={{ textAlign: "center" }}>Welcome to AW.io </h2>
+                <h3 style={{ textAlign: "center" }}>Please fill in your personal information</h3>
+
+                <form className='form' onSubmit={handleSubmit}>
+      <label htmlFor="name">
+      <input type="text" placeholder="name" id="name" name="name" value={employee.name} onChange={handleChange} /></label>
+
+      <label htmlFor="surname">
+      <input type="text" placeholder='Surname' id="surname" name="surname" value={employee.surname} onChange={handleChange} /></label>
+
+      <label htmlFor="email">
+      <input type="email" placeholder='Email' id="email" name="email" value={employee.email} onChange={handleChange} /></label>
+
+      <label htmlFor="phone">
+      <input type="tel" placeholder='phoneNumber' id="phone" name="phone" value={employee.phone} onChange={handleChange} /></label>
+
+      <label htmlFor="position">
+      <input type="text" placeholder='Position' id="position" name="position" value={employee.position} onChange={handleChange} /></label>
+
+      <label htmlFor="id">
+      <input type="text" placeholder='EmployeeNo' id="id" name="id" value={employee.id} onChange={handleChange} /></label>
+
+      <label htmlFor="image">Image
+      <input type="file" placeholder='image' id="image" name="image" value={employee.image} onChange={handleChange} accept="image/*" /></label>
 
 
-
-  return (
-    <>
-        <form onSubmit={handleSubmit}>
-
-<h1>Employee Application</h1>
-
-      <label>
-        <input placeholder ="Enter ISBN"
-         type="number"
-         name="isbn"
-         value={inputs.isbn || ""}
-         onChange={handleChange}/>
-     </label>
-      <br></br>
-      <br></br>
-
-      <label>
-        <input   placeholder= "Enter The Book Title" type="text" 
-         name="title"
-         value={inputs.title || ""}
-         onChange={handleChange}/>
-      </label>
-      <br></br>
-      <br></br>
-
-      <label>
-        <input type="number" placeholder='Enter the number of pages'
-         name="NumPages"
-         value={inputs.NumPages || ""}
-         onChange={handleChange} />
-      </label>
-      <br></br>
-      <br></br>
-
-      <label>
-        <input type="text" placeholder="Enter the number of pages"
-         name="edition"
-         value={inputs.edition || ""}
-         onChange={handleChange} />
-      </label>
-      <br></br>
-      <br></br>
-
-      <label>
-        <input type="text" placeholder ="Enter publishers name"
-         name="username"
-        value={inputs.username || ""}
-        onChange={handleChange}/>
-      </label>
-      <br></br>
-      <br></br>
-
-      <label>
-        <input type="text" placeholder ="Enter editor name"
-        name="editorName"
-        value={inputs.editorName || ""}
-        onChange={handleChange} />
-      </label>
-      <br></br>
-      <br></br>
-
-      <label>
-        <input type="price" placeholder ="Enter the price"
-         name="price"
-         value={inputs.price || ""}
-         onChange={handleChange} />
-      </label>
-      <br></br>
-      <br></br>
-
-<label>
-        <input type="date" placeholder = "Enter the release date"
-         name="Rdate"
-         value={inputs.Rdate || ""}
-         onChange={handleChange} />
-      </label>
-      <br></br>
-      <br></br>
-      {/* <select>
-  <option value="PDF">PDF</option>
-  <option value="e-BOOK" selected>e-BOOK</option>
-  <option value="HARD-COPY">HARD-COPY</option>
-</select> */}
-
-      <div>
-        <button type="submit">OK</button>
-        </div>
-
+      <button className='btn'>Submit</button>
+      
     </form>
+                
 
- </>
-  )
+                    
+            </div>
+           
+        </>
+    )
 }
-    export default RegisterEmployee
+
+export default RegistrationForm

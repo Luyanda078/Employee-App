@@ -1,33 +1,84 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React, { useEffect, useState } from "react"
+import Navbar from "./components/navbar"
+import Registration from "./components/registration"
+import Profile from "./components/profile";
+import List from "./components/list";
+
+
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
 
+  const [employees, setEmployees] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+
+
+  useEffect(() => {
+    // Get employees data from local storage
+    const storedEmployees = localStorage.getItem('employees');
+    if (storedEmployees) {
+      setEmployees(JSON.parse(storedEmployees));
+    }
+  }, []);
+
+  // useEffect(() => {
+  //   // Send employees data to local storage
+  //   localStorage.setItem('employees', JSON.stringify(employees));
+  // }, [employees]);
+
+  const handleAddEmployee = (employee) => {
+    setEmployees([...employees, employee]);
+  };
+
+  // //Delete Employees data
+  const handleDeleteEmployee = (id) => {
+   setEmployees(employees.filter((employee) => employee.id !== id));
+   };
+
+  
+
+  // Allow the Employee to edit the infomation
+  const handleUpdateEmployee = (id, updatedEmployee) => {
+    // setEmployees(
+    //   employees.map((employee) => (employee.id === id ? updatedEmployee : employee)));
+    handleDeleteEmployee(id)
+    handleAddEmployee(id)
+  };
+  
+  const handleSelectEmployee = (employee) => {
+    setSelectedEmployee(employee);
+  };
+
+  //Takes the search input
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  //Stores the FilteredList in an Object
+  const filteredEmployees = employees.filter((employee) =>
+    employee.id.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+ 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div>
+      <Navbar/>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div className='main'>
+      <Registration onAddEmployee={handleAddEmployee} />
+     
+      <List 
+       employees={filteredEmployees}
+       onSelectEmployee={handleSelectEmployee}
+       onSearch={handleSearch}
+     />
+     
+     {selectedEmployee && (
+      <Profile employees={selectedEmployee} onUpdateEmployee={handleUpdateEmployee} onDeleteEmployee={handleDeleteEmployee} onAddEmployee={handleAddEmployee} />
+    )}
+     
+      </div>  
     </>
   )
 }
