@@ -5,11 +5,11 @@
 ## Run Locally
 Clone the project
 ```bash
- https://github.com/Luyanda078/Boolean-Work
+https://github.com/Luyanda078/Employee-App
 ```
 Go to the project directory
 ```bash
-  cd Boolean-Work
+  cd employee-app
 ```
 Install dependencies
 ```bash
