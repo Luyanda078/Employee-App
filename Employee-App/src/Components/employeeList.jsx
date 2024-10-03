@@ -1,26 +1,52 @@
 import React from 'react';
 
-function EmployeeList({ employees, onSelectEmployee, onSearch }) {
-
+const EmployeeList = ({ employees, onDelete, onEdit }) => {
   return (
-    <>
-    <div className="employeelist" style={{marginLeft:"20px" }}>
-      
-      <label htmlFor="search">
-                <input type="text" id="search" placeholder="Search" onChange={onSearch}/>
-            </label>
-
-      <ul>
-        {employees.map((employee) => (
-          <li key={employee.id}>
-            <span>{employee.id} - {employee.name} {employee.surname}</span>
-            
-            <button className='button' onClick={() => onSelectEmployee(employee)}>View</button>
-          </li>
-        ))}
-      </ul>
+    <div>
+      <h3>Employee List</h3>
+      {employees.length === 0 ? (
+        <p>No employees found</p>
+      ) : (
+        <table className="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Surname</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Position</th>
+              <th>Image</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {employees.map((employee) => (
+              <tr key={employee.id}>
+                <td>{employee.id}</td>
+                <td>{employee.name}</td>
+                <td>{employee.surname}</td>
+                <td>{employee.email}</td>
+                <td>{employee.phone}</td>
+                <td>{employee.position}</td>
+                <td>
+                  <img src={employee.image} alt={employee.name} width="50" />
+                </td>
+                <td>
+                  <button className="btn btn-info me-2" onClick={() => onEdit(employee)}>
+                    Edit
+                  </button>
+                  <button className="btn btn-danger" onClick={() => onDelete(employee.id)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
-    </>
-  ); }
-  
-  export default EmployeeList
+  );
+};
+
+export default EmployeeList;

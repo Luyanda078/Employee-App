@@ -1,82 +1,53 @@
-import React, { useEffect, useState } from "react"
-import Navbar from "./components/Navbar"
-import Registration from "./components/registration"
-import Profile from "./components/profile";
-import List from "./components/list";
+import React, { useState, useEffect } from 'react';
+import EmployeeForm from './Components/EmployeeForm';
+import EmployeeList from './Components/employeeList';
+import Search from './Components/Search';
 
-
-import './App.css'
-
-function App() {
-
+const App = () => {
   const [employees, setEmployees] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [editEmployee, setEditEmployee] = useState(null);
 
-
+  // Load employees from local storage on mount
   useEffect(() => {
-    
-    const storedEmployees = localStorage.getItem('employees');
+    const storedEmployees = JSON.parse(localStorage.getItem('employees'));
     if (storedEmployees) {
-      setEmployees(JSON.parse(storedEmployees));
+      setEmployees(storedEmployees);
     }
   }, []);
 
- 
+  // Save employees to local storage whenever the employees array changes
+  useEffect(() => {
+    localStorage.setItem('employees', JSON.stringify(employees));
+  }, [employees]);
 
-  const handleAddEmployee = (employee) => {
-    setEmployees([...employees, employee]);
+  // Add or update employee
+  const handleAddOrUpdate = (employee) => {
+    if (editEmployee) {
+      setEmployees(employees.map((emp) => (emp.id === employee.id ? employee : emp)));
+      setEditEmployee(null);
+    } else {
+      setEmployees([...employees, { ...employee, id: Date.now() }]);
+    }
   };
 
-
-  const handleDeleteEmployee = (id) => {
-   setEmployees(employees.filter((employee) => employee.id !== id));
-   };
-
-  
-
-  
-  const handleUpdateEmployee = (id, updatedEmployee) => {
-   
-    handleDeleteEmployee(id)
-    handleAddEmployee(id)
-  };
-  
-  const handleSelectEmployee = (employee) => {
-    setSelectedEmployee(employee);
+  // Delete employee
+  const handleDelete = (id) => {
+    setEmployees(employees.filter((emp) => emp.id !== id));
   };
 
-
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
+  // Handle search result
+  const handleSearch = (employee) => {
+    setEditEmployee(employee);
   };
 
- 
-  const filteredEmployees = employees.filter((employee) =>
-    employee.id.toLowerCase().includes(searchTerm.toLowerCase())
-  );
- 
   return (
-    <>
-    <div>
-      <Navbar/>
-      </div>
-    <div className='main'>
-      <Registration onAddEmployee={handleAddEmployee} />
-     
-      <List 
-       employees={filteredEmployees}
-       onSelectEmployee={handleSelectEmployee}
-       onSearch={handleSearch}
-     />
-     
-     {selectedEmployee && (
-      <Profile employees={selectedEmployee} onUpdateEmployee={handleUpdateEmployee} onDeleteEmployee={handleDeleteEmployee} onAddEmployee={handleAddEmployee} />
-    )}
-     
-      </div>  
-    </>
-  )
-}
+    <div className="container">
+      <h1 className="text-center my-4">Employee Registration</h1>
+      <Search employees={employees} onSearch={handleSearch} />
+      <EmployeeForm addOrUpdateEmployee={handleAddOrUpdate} editEmployee={editEmployee} />
+      <EmployeeList employees={employees} onDelete={handleDelete} onEdit={setEditEmployee} />
+    </div>
+  );
+};
 
-export default App
+export default App;
