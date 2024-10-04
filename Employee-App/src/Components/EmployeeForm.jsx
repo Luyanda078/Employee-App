@@ -32,6 +32,17 @@ const EmployeeForm = ({ addOrUpdateEmployee, editEmployee }) => {
     setEmployee({ ...employee, [name]: value });
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setEmployee({ ...employee, image: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     addOrUpdateEmployee(employee);
@@ -100,12 +111,11 @@ const EmployeeForm = ({ addOrUpdateEmployee, editEmployee }) => {
         required
       />
       <input
-        type="text"
+        type="file"
         className="form-control mb-3"
         name="image"
-        value={employee.image}
-        onChange={handleChange}
-        placeholder="Image URL"
+        accept="image/*"
+        onChange={handleImageChange}
       />
       <button type="submit" className="btn btn-primary w-100">
         {editEmployee ? 'Update Employee' : 'Add Employee'}
